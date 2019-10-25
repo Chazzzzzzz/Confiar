@@ -22,14 +22,14 @@ contract colombia {
         creator = msg.sender;
     }
     
-    function addRegisterationOffice(address registerationOfficeID) public {
+    function addRegistrationOffice(address registrationOfficeID) public {
         require(msg.sender = creator);
-        registertionOffice.push(registerationOfficeID);
+        registertionOffice.push(registrationOfficeID);
     }
     
     function isRegistertionOffice(address ID) private return (bool){
-        for(uint8 i=0; i < registerationOfficeID.length; i++) {
-            if (ID == registerationOfficeID[i]) {
+        for(uint8 i=0; i < registrationOfficeID.length; i++) {
+            if (ID == registrationOfficeID[i]) {
                 return true
             }
         }
@@ -37,7 +37,7 @@ contract colombia {
     }
     
     function approve(string proposalID) public {
-        require(isRegistertionOffice(msg.sender), "Only the Registeration Office can call approve/reject");
+        require(isRegistertionOffice(msg.sender), "Only the Registration Office can call approve/reject");
         Proposal currProposal = unfinishedProposals[proposalID];
         currProposal.isActive = false;
         if (currProposal.isAddTransaction) {
@@ -50,7 +50,7 @@ contract colombia {
     }
     
     function reject(string proposalID) public {
-        require(isRegistertionOffice(msg.sender), "Only the Registeration Office can call approve/reject");
+        require(isRegistertionOffice(msg.sender), "Only the Registration Office can call approve/reject");
         unfinishedProposals[proposalID].isActive = false;
     }
     
