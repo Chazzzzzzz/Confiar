@@ -1,0 +1,16 @@
+To set up docker version of frontend, do 
+1) set up mongodb in a docker container
+   a) docker pull mongo
+   b) docker run -d -p 27017-27019:27017-27019 --name mongodb mongo  (This line will run mongodb in a container and bind the port of the container to localhost:27017-27019)
+2) set up frontend
+   a) docker build -t confiar .
+   b) docker run -idt -p 3000:3000 confiar
+   c) docker ps
+      then you see a lot of hash and image names like this:
+       CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                  NAMES
+       f47cb4c24119        confiar             "/bin/bash"              10 seconds ago      Up 8 seconds        0.0.0.0:3000->3000/tcp                 xenodochial_volhard
+       0e101ec3fad5        mongo               "docker-entrypoint.s…"   38 seconds ago      Up 36 seconds       0.0.0.0:27017-27019->27017-27019/tcp   mongodb111
+   d) since in the example, the container id of image "confiar", so I should do "docker attach f47cb4c24119"
+   e) for now you are in the container
+   f) type:  "npm start"
+3) go to broswer in you laptop and open visit "localhost:3000"
