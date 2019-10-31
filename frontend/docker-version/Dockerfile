@@ -22,6 +22,7 @@ RUN npm install
 RUN npm install -g react-scripts 
 RUN npm install --save react-router-dom 
 RUN npm install --save bootstrap
+RUN npm install --save react-bootstrap
 RUN npm install -g express 
 RUN npm install -g body-parser 
 RUN npm install -g cors 
