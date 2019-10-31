@@ -5,29 +5,47 @@ const cors = require('cors');
 const mongoose = require('mongoose'); 
 const todoRoutes = express.Router();  
 
-//const PORT = 4000;
+const PORT = 4000;
 
 let Todo = require('./todo.model');
+let User = require('./user.model')
 
 app.use(cors());
 app.use(bodyParser.json());
 
-const db = require("./config/keys").mongoURI;
-
-mongoose.connect(
-	db, {useNewUrlParser: true}
-	)
-.then(()=> console.log("SUCCESS CONNECT"))
-.catch(err => console.log(err));
-
+mongoose.connect('mongodb://127.0.0.1:27017/todos', {useNewUrlParser: true});
 const connection = mongoose.connection; 
-const PORT = process.env.PORT || 4000;
+
+// app.listen(PORT, function() {
+// 	console.log("Server running on port:" + "PORT");
+// }); 
+
+// const db = require("./config/keys").mongoURI;
+
+// mongoose.connect(
+// 	db, {useNewUrlParser: true}
+// 	)
+// .then(()=> console.log("SUCCESS CONNECT"))
+// .catch(err => console.log(err));
+
+
+// const PORT = process.env.PORT || 4000;
 
 connection.once('open', function() {
 	console.log("MONGODB success");
 });
 
 todoRoutes.route('/').get(function(req, res) {
+	Todo.find(function(err, todos) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(todos); 
+		}
+	});
+});
+
+todoRoutes.route('/all').get(function(req, res) {
 	Todo.find(function(err, todos) {
 		if (err) {
 			console.log(err);
@@ -69,6 +87,28 @@ todoRoutes.route('/add').post(function(req, res) {
 		res.status(400).send('add failed'); 
 	}); 
 });
+
+todoRoutes.route('/users/add').post(function(req, res) {
+	let usr = new User(req.body);
+	usr.save()
+	.then(usr => {
+		res.status(200).json({'usr': 'add success'});
+	})
+	.catch(err => {
+		res.status(400).send('add failed'); 
+	}); 
+});
+
+todoRoutes.route('/users/get').get(function(req, res) {
+	User.find(function(err, users) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.json(users); 
+		}
+	});
+});
+
 
 todoRoutes.route('/update/:id').post(function(req, res) {
 	Todo.findById(req.params.id, function(err, todo) {
