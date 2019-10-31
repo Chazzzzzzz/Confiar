@@ -4,16 +4,19 @@ const Schema = mongoose.Schema;
 
 
 let Todo = new Schema({
-	todo_description: {
+	trans_buyer: {
 		type: String
 	},
-	todo_responsible: {
+	trans_seller: {
 		type: String
 	},
-	todo_priority: {
+	trans_info: {
 		type: String
 	},
-	todo_completed: {
+	trans_docs: {
+		type: String
+	},
+	trans_completed: {
 		type: Boolean
 	}
 });

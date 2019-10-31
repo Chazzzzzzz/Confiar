@@ -77,6 +77,43 @@ todoRoutes.route('/delete/:id').delete(function(req, res) {
 });
 });
 
+todoRoutes.route('/find/:name').get(function(req, res) {
+	let name = req.params.name;
+	Todo.find({"trans_buyer" : name}, function(err, todo) {
+		res.json(todo);
+	});
+});
+
+todoRoutes.route('/find2/:name').get(function(req, res) {
+	let name = req.params.name;
+	Todo.find({"trans_seller" : name}, function(err, todo) {
+		res.json(todo);
+	});
+});
+
+todoRoutes.route('/verify/:username/:password').get(function(req, res) {
+	let name = req.params.username;
+	let pass = req.params.password; 
+	User.find({"username" : name, "password" : pass}, function(err, todo) {
+		res.json(todo);
+	});
+});
+
+todoRoutes.route('/users/delete/:id').delete(function(req, res) {
+	let id = req.params.id;
+	User.findByIdAndRemove(id, (err, todo) => {
+    // As always, handle any potential errors:
+    if (err) return res.status(500).send(err);
+    // We'll create a simple object to send back with a message and the id of the document that was removed
+    // You can really do this however you want, though.
+    const response = {
+        message: "User successfully deleted",
+        id: todo._id
+    };
+    return res.status(200).send(response);
+});
+});
+
 todoRoutes.route('/add').post(function(req, res) {
 	let todo = new Todo(req.body);
 	todo.save()
@@ -115,10 +152,10 @@ todoRoutes.route('/update/:id').post(function(req, res) {
 		if (!todo) 
 			res.status(404).send('data not found');
 		else 
-			todo.todo_description = req.body.todo_description;
-			todo.todo_responsible = req.body.todo_responsible;
-			todo.todo_priority = req.body.todo_priority;
-			todo.todo_completed = req.body.todo_completed;
+			todo.trans_seller = req.body.trans_seller;
+			todo.trans_info = req.body.trans_info;
+			todo.trans_docs = req.body.trans_docs;
+			todo.trans_completed = req.body.trans_completed;
 
 			todo.save().then(todo => {
 				res.json('Todo updated');
