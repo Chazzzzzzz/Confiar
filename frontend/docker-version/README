@@ -1,16 +1,39 @@
-To set up docker version of frontend, do 
-1) set up mongodb in a docker container
-   a) docker pull mongo
-   b) docker run -d -p 27017-27019:27017-27019 --name mongodb mongo  (This line will run mongodb in a container and bind the port of the container to localhost:27017-27019)
-2) set up frontend
-   a) docker build -t confiar .
-   b) docker run -idt -p 3000:3000 confiar
-   c) docker ps
-      then you see a lot of hash and image names like this:
-       CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                  NAMES
-       f47cb4c24119        confiar             "/bin/bash"              10 seconds ago      Up 8 seconds        0.0.0.0:3000->3000/tcp                 xenodochial_volhard
-       0e101ec3fad5        mongo               "docker-entrypoint.s…"   38 seconds ago      Up 36 seconds       0.0.0.0:27017-27019->27017-27019/tcp   mongodb111
-   d) since in the example, the container id of image "confiar", so I should do "docker attach f47cb4c24119"
-   e) for now you are in the container
-   f) type:  "npm start"
-3) go to broswer in you laptop and open visit "localhost:3000"
+If you want to build the docker
+    To set up docker version, do 
+    0) set up a docker network 
+        docker network create --subnet=172.18.0.0/16 testnet
+    1) set up mongodb in a docker container
+        a) docker pull mongo
+        b) docker run -d -p 27017-27019:27017-27019  --net testnet --ip 172.18.0.3 --name mongodb mongo  (This line will run mongodb in a container and bind the port of the container to localhost:27017-27019)
+    2) set up frontend
+        a) docker build -t confiar .
+        b) docker run -idt -p 3000:3000 -p 4000:4000 --link=mongodb:mongo --net testnet  --ip 172.18.0.4 confiar
+        c) docker ps
+        then you see a lot of hash and image names like this:
+        CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                  NAMES
+        f47cb4c24119        confiar             "/bin/bash"              10 seconds ago      Up 8 seconds        0.0.0.0:3000->3000/tcp                 xenodochial_volhard
+        0e101ec3fad5        mongo               "docker-entrypoint.s…"   38 seconds ago      Up 36 seconds       0.0.0.0:27017-27019->27017-27019/tcp   mongodb111
+        d) since in the example, the container id of image "confiar", so I should do "docker attach f47cb4c24119"
+        e) for now you are in the container
+        f) tmux new -t npm
+        g) npm start
+        h) tmux new -t nodemon
+        i) cd /Confiar/frontend/backend
+        j) nodemon server
+    3) go to broswer in you laptop and open visit "localhost:3000"
+
+If you want to pre-built version:
+    0) docker pull dockerchaz/confiar
+    1) docker pull mongo
+    2) docker run -d -p 27017-27019:27017-27019  --net testnet --ip 172.18.0.3 --name mongodb mongo
+    3) docker run -idt -p 3000:3000 -p 4000:4000 --link=mongodb:mongo --net testnet  --ip 172.18.0.4 confiar
+    4) docker attach to the confiar container
+    5) using tmux to create two terminal
+    6) go to /Confiar/frontend/confiar run "npm start" in the first terminal
+    7) go to /Confiar/frontend/backend# and run "nodemon server" in the second terminal
+    8) you are done, go to broswer and input localhost:3000 to test
+
+    you may want to use the latest code of Confiar, so before doing 5), you can do
+    1) go to the root dir of confiar project
+    2) run "git pull" to ge the latest code
+    3) begin at from 5) using tmux to create two terminal
