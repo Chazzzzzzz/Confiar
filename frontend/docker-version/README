@@ -26,7 +26,7 @@ If you want to pre-built version:
     0) docker pull dockerchaz/confiar
     1) docker pull mongo
     2) docker run -d -p 27017-27019:27017-27019  --net testnet --ip 172.18.0.3 --name mongodb mongo
-    3) docker run -idt -p 3000:3000 -p 4000:4000 --link=mongodb:mongo --net testnet  --ip 172.18.0.4 confiar
+    3) docker run -idt -p 3000:3000 -p 4000:4000 --link=mongodb:mongo --net testnet  --ip 172.18.0.4 dockerchaz/confiar
     4) docker attach to the confiar container
     5) using tmux to create two terminal
     6) go to /Confiar/frontend/confiar run "npm start" in the first terminal
