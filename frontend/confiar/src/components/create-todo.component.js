@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { Dropdown, DropdownButton, FormControl,  ul} from 'react-bootstrap';
 
 import  {Link} from 'react-router-dom';
 
@@ -11,6 +11,50 @@ import logo from "../logo.svg";
 const User = props => (
 	 <Dropdown.Item eventKey={props.users.username}>{props.users.username}</Dropdown.Item>
 )
+
+class CustomMenu extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+
+    this.state = { value: '' };
+  }
+
+  handleChange(e) {
+    this.setState({ value: e.target.value.toLowerCase().trim() });
+  }
+
+  render() {
+    const {
+      children,
+      style,
+      className,
+      'aria-labelledby': labeledBy,
+    } = this.props;
+
+    const { value } = this.state;
+
+    return (
+      <div style={style} className={className} aria-labelledby={labeledBy}>
+        <FormControl
+          autoFocus
+          className="mx-3 my-2 w-auto"
+          placeholder="Type to filter..."
+          onChange={this.handleChange}
+          value={value}
+        />
+        <ul>
+          {React.Children.toArray(children).filter(
+            child =>
+              !value || child.props.children.toLowerCase().startsWith(value),
+          )}
+        </ul>
+      </div>
+    );
+  }
+}
+
 
 export default class CreateTodo extends Component {
 
@@ -150,7 +194,9 @@ export default class CreateTodo extends Component {
 						<label>Seller: </label>
 						<div className="form-group">
 						<DropdownButton id="dropdown-basic-button" title="Seller list" onSelect={this.onChangeTransSeller}>
+						<Dropdown.Menu as={CustomMenu}>
 					 	{this.userList()}
+					 	</Dropdown.Menu>
 					</DropdownButton>
 					</div>
 						<input  type="text" 

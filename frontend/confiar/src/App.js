@@ -26,8 +26,8 @@ function App() {
       <Route path="/login" exact component={Login} />
       <Route path="/main/:usr" exact component={Main} />
       <Route path="/delete/:usr/:id" exact component={DeleteTodos} />
-      <Route path="/edit/:usr/:id" component={EditTodo} />
-      <Route path="/create/:usr" component={CreateTodo} />
+      <Route path="/edit/:usr/:id" exact component={EditTodo} />
+      <Route path="/create/:usr" exact component={CreateTodo} />
     </div>
     </Router>
   );

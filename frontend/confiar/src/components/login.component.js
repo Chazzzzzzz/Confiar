@@ -18,7 +18,8 @@ export default class SignUp extends Component {
 			username: '',
 			password: '',
 			verified: [],
-			failed: false
+			failed: false,
+			olduser: ''
 		}
 	}
 
@@ -32,6 +33,12 @@ export default class SignUp extends Component {
 		this.setState({
 			username: e.target.value
 		});
+	}
+
+	componentDidUpdate(){
+		if (this.state.verified.length > 0){
+			this.props.history.push('/main/' + this.state.olduser);
+		}
 	}
 
 	onSubmit(e) {
@@ -56,6 +63,7 @@ export default class SignUp extends Component {
 
 
 		this.setState({
+			olduser: this.state.username,
 			username: '',
 			password: '',
 		});
