@@ -12,6 +12,364 @@ const User = props => (
 	 <Dropdown.Item eventKey={props.users.username}>{props.users.username}</Dropdown.Item>
 )
 
+var abi = [
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "addProperty",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "registrationOfficeID",
+				"type": "address"
+			}
+		],
+		"name": "addRegistrationOffice",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "proposalID",
+				"type": "bytes32"
+			}
+		],
+		"name": "approve",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "proposalID",
+				"type": "bytes32"
+			}
+		],
+		"name": "cancel",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "checkOwnership",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "proposalID",
+				"type": "bytes32"
+			}
+		],
+		"name": "claimTimeout",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "getOwnership",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "ID",
+				"type": "address"
+			}
+		],
+		"name": "isRegistrationOffice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "proposalID",
+				"type": "bytes32"
+			}
+		],
+		"name": "reject",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "buyerID",
+				"type": "address"
+			},
+			{
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "transferProperty",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "addPropertyEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "buyerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "transferPropertyEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "registrationOfficeID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "buyerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "approveEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "registrationOfficeID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "buyerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "rejectEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "cancellerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "buyerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "cancelEvent",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "claimerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "buyerID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "timeoutEvent",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "creator",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+
 export default class CreateTodo extends Component {
 
 	constructor(props) {
@@ -90,6 +448,32 @@ export default class CreateTodo extends Component {
 			trans_docs: '',
 			trans_completed: false
 		});
+
+
+		var Web3 = require('web3');
+		// define using metamask
+		if (typeof window.ethereum !== 'undefined') {
+			const provider = window['ethereum'];
+			var web3 = new Web3(provider);
+		} else {
+			console.log("no metamask connected");
+		}
+		// define contract
+		var contract_address = '0x434Afb68242257e8CEf2865Cf35ed7A020dDe49b';
+		var contract = new web3.eth.Contract(abi, contract_address, {
+			from: '0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf',
+			gasPrice: '20000000000'
+		});
+		contract.defaultChain = 'ropsten';
+		// call "addProperty" method in the contract and create a property named "123"
+		contract.methods.addProperty("123").send({from:"0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf"})
+			.on('transactionHash', function(hash){
+				console.log("transactionHash" + hash);
+			})
+			.on('receipt', function(receipt){
+				console.log(receipt);
+			});
+
 	}
 
 	onChangeTransDocs(e) {
