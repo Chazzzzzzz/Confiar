@@ -35,7 +35,7 @@ export default class Main extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:4000/todos/find/'+this.state.userId)
+		axios.get('http://localhost:4000/todos/')
 			.then(response => {
 				this.setState({todos: response.data});
 			})
@@ -45,7 +45,7 @@ export default class Main extends Component {
 	}
 
 	componentDidUpdate() {
-		axios.get('http://localhost:4000/todosfind/'+this.state.userId)
+		axios.get('http://localhost:4000/todos/')
 			.then(response => {
 				this.setState({todos: response.data});
 			})

@@ -11,6 +11,7 @@ export default class SignUp extends Component {
 		super(props);
 
 		this.onChangePassword = this.onChangePassword.bind(this);
+		this.onChangeIsNotary = this.onChangeIsNotary.bind(this);
 		this.onChangeUsername = this.onChangeUsername.bind(this);
 		this.onChangePublicKey = this.onChangePublicKey.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
@@ -18,6 +19,7 @@ export default class SignUp extends Component {
 		this.state = {
 			username: '',
 			password: '',
+			is_notary: true,
 			public_key: '',
 		}
 	}
@@ -34,6 +36,17 @@ export default class SignUp extends Component {
 		});
 	}
 
+	onChangeIsNotary(e) {
+		let val = e.target.value
+		let v = true
+		if (val=="Registrar"){
+			v = false
+		}
+		this.setState({
+			is_notary: v
+		});
+	}
+
 	onSubmit(e) {
 		e.preventDefault();
 
@@ -41,16 +54,24 @@ export default class SignUp extends Component {
 			username: this.state.username,
 			password: this.state.password,
 			public_key: this.state.public_key,
+			is_notary: this.state.is_notary,
 		}
 
 		axios.post('http://localhost:4000/todos/users/add', newUser)
 			.then(res => console.log(res.data));
 
-		this.props.history.push('/main/' + this.state.username);
+		if (this.state.is_notary == false) {
+			this.props.history.push('/main/registrar/' + this.state.username);
+		} else {
+			this.props.history.push('/main/' + this.state.username);
+		}
+
+		
 
 		this.setState({
 			username: '',
 			password: '',
+			is_notary: true,
 			public_key: '',
 		});
 
@@ -105,6 +126,32 @@ export default class SignUp extends Component {
 								onChange={this.onChangePublicKey}
 								/>
 					</div>
+
+					<div className="form-group">
+                        <div className="form-check form-check-inline">
+                            <input  className="form-check-input"
+                                    type="radio"
+                                    name="priorityOptions"
+                                    id="priorityLow"
+                                    value="Notary"
+                                    checked={this.state.is_notary===true}
+                                    onChange={this.onChangeIsNotary}
+                                    />
+                            <label className="form-check-label">Notary</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input  className="form-check-input"
+                                    type="radio"
+                                    name="priorityOptions"
+                                    id="priorityMedium"
+                                    value="Registrar"
+                                    checked={this.state.is_notary===false}
+                                    onChange={this.onChangeIsNotary}
+                                    />
+                            <label className="form-check-label">Registrar</label>
+                        </div>
+                        
+                        </div>
 
 					<div className="form-group"> 
 						<input type="submit"

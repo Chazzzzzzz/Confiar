@@ -10,6 +10,7 @@ import DeleteTodos from "./components/delete-todo.component";
 import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import Root from "./components/root.component";
+import Registrar from "./components/registrar-main.component";
 
 import Main from "./components/main.component";
 
@@ -25,6 +26,7 @@ function App() {
       <Route path="/signup" exact component={SignUp} />
       <Route path="/login" exact component={Login} />
       <Route path="/main/:usr" exact component={Main} />
+      <Route path="/main/registrar/:usr" exact component={Registrar} />
       <Route path="/delete/:usr/:id" exact component={DeleteTodos} />
       <Route path="/edit/:usr/:id" exact component={EditTodo} />
       <Route path="/create/:usr" exact component={CreateTodo} />

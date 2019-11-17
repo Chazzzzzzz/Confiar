@@ -31,3 +31,4 @@ RUN npm install -g nodemon
 RUN npm install -g axios
 
 EXPOSE 3000
+EXPOSE 4000

@@ -79,14 +79,7 @@ todoRoutes.route('/delete/:id').delete(function(req, res) {
 
 todoRoutes.route('/find/:name').get(function(req, res) {
 	let name = req.params.name;
-	Todo.find({"trans_buyer" : name}, function(err, todo) {
-		res.json(todo);
-	});
-});
-
-todoRoutes.route('/find2/:name').get(function(req, res) {
-	let name = req.params.name;
-	Todo.find({"trans_seller" : name}, function(err, todo) {
+	Todo.find({"trans_notary_id" : name}, function(err, todo) {
 		res.json(todo);
 	});
 });
