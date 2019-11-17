@@ -461,21 +461,24 @@ export default class CreateTodo extends Component {
 
 		var Web3 = require('web3');
 		// define using metamask
-		if (typeof window.ethereum !== 'undefined') {
-			const provider = window['ethereum'];
-			var web3 = new Web3(provider);
-		} else {
-			console.log("no metamask connected");
-		}
+		// if (typeof window.ethereum !== 'undefined') {
+		// 		// 	const provider = window['ethereum'];
+		// 		// 	var web3 = new Web3(provider);
+		// 		// } else {
+		// 		// 	console.log("no metamask connected");
+		// 		// }
+		var userPublicKey = "0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf";
+		var rpcUrl = "ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
+		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
 		// define contract
-		var contract_address = '0x434Afb68242257e8CEf2865Cf35ed7A020dDe49b';
+		var contract_address = '0xEAaEa353404d0cC1700cBF671f83903092a1B718';
 		var contract = new web3.eth.Contract(abi, contract_address, {
-			from: '0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf',
+			from: userPublicKey,
 			gasPrice: '20000000000'
 		});
 		contract.defaultChain = 'ropsten';
 		// call "addProperty" method in the contract and create a property named "123"
-		contract.methods.addProperty("123").send({from:"0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf"})
+		contract.methods.addProperty("123", "chazID", "chaz").send({from:userPublicKey})
 			.on('transactionHash', function(hash){
 				console.log("transactionHash" + hash);
 			})
