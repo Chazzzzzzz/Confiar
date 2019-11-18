@@ -14,6 +14,14 @@ var abi = [
 			{
 				"name": "propertyID",
 				"type": "string"
+			},
+			{
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"name": "ownerName",
+				"type": "string"
 			}
 		],
 		"name": "addProperty",
@@ -54,22 +62,8 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "proposalID",
-				"type": "bytes32"
-			}
-		],
-		"name": "cancel",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
 				"name": "ownerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"name": "propertyID",
@@ -91,19 +85,10 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "proposalID",
-				"type": "bytes32"
+				"name": "ownerID",
+				"type": "string"
 			}
 		],
-		"name": "claimTimeout",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
 		"name": "getOwnership",
 		"outputs": [
 			{
@@ -152,11 +137,23 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "buyerID",
-				"type": "address"
+				"name": "propertyID",
+				"type": "string"
 			},
 			{
-				"name": "propertyID",
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"name": "buyerID",
+				"type": "string"
+			},
+			{
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"name": "buyerName",
 				"type": "string"
 			}
 		],
@@ -177,13 +174,23 @@ var abi = [
 		"inputs": [
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
 				"name": "proposalID",
 				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -199,13 +206,28 @@ var abi = [
 		"inputs": [
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"name": "buyerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -231,13 +253,28 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"name": "buyerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -263,13 +300,28 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"name": "buyerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -295,12 +347,7 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "buyerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
@@ -327,12 +374,7 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "buyerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
@@ -468,24 +510,43 @@ export default class CreateTodo extends Component {
 		// 		// 	console.log("no metamask connected");
 		// 		// }
 		var userPublicKey = "0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf";
-		var rpcUrl = "ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
+		var userPrivateKey = "0x0D3EF0CE996DB59C50A732A246F987E6E2B922723799101EF0A65A060BF2D54C";
+		var rpcUrl = "https://ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
 		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
+		// define account
+		var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
+		web3.eth.accounts.wallet.add(account);
 		// define contract
 		var contract_address = '0xEAaEa353404d0cC1700cBF671f83903092a1B718';
-		var contract = new web3.eth.Contract(abi, contract_address, {
-			from: userPublicKey,
-			gasPrice: '20000000000'
-		});
+		var contract = new web3.eth.Contract(abi, contract_address);
 		contract.defaultChain = 'ropsten';
+		contract.defaultHardfork = 'petersburg';
 		// call "addProperty" method in the contract and create a property named "123"
-		contract.methods.addProperty("123", "chazID", "chaz").send({from:userPublicKey})
-			.on('transactionHash', function(hash){
-				console.log("transactionHash" + hash);
-			})
-			.on('receipt', function(receipt){
-				console.log(receipt);
-			});
+		async function addProperty() {
+			const from = web3.eth.accounts.wallet[0].address;
+			const nonce = await web3.eth.getTransactionCount(from, "pending");
+			let gas = await contract.methods
+				.addProperty("123", "chazID", "chaz")
+				.estimateGas({from: from, gas: "10000000000"});
 
+			gas = Math.round(gas * 1.5);
+
+			try {
+				const result = await contract.methods
+					.addProperty("123", "chazID", "chaz").send({gas, from, nonce})
+					.on('transactionHash', function(hash){
+						console.log("transactionHash" + hash);
+					})
+					.on('receipt', function(receipt){
+						console.log(receipt);
+					});
+				console.log("success", result);
+			} catch (e) {
+				console.log("error", e);
+			}
+		}
+
+		addProperty();
 	}
 
 	render () {
