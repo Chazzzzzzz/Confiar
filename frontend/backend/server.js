@@ -92,6 +92,13 @@ todoRoutes.route('/verify/:username/:password').get(function(req, res) {
 	});
 });
 
+todoRoutes.route('/getInfo/:username').get(function(req, res) {
+	let name = req.params.username;
+	User.find({"username" : name}, function(err, todo) {
+		res.json(todo);
+	});
+});
+
 todoRoutes.route('/users/delete/:id').delete(function(req, res) {
 	let id = req.params.id;
 	User.findByIdAndRemove(id, (err, todo) => {

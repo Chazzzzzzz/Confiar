@@ -431,6 +431,7 @@ export default class CreateTodo extends Component {
 			trans_docs: '',
 			trans_notary_id: '',
 			trans_completed: false,
+			info: [],
 			main_url: "/main/" + this.props.match.params.usr
 		}
 	}
@@ -472,6 +473,16 @@ export default class CreateTodo extends Component {
 		});
 	}
 
+	componentDidMount(){
+		axios.get('http://localhost:4000/todos/getInfo/'+this.props.match.params.usr)
+			.then(response => {
+				this.setState({info: response.data});
+			})
+			.catch(function(error) {
+				console.log(error); 
+			})
+	}
+
 	onSubmit(e) {
 		e.preventDefault();
 
@@ -486,8 +497,19 @@ export default class CreateTodo extends Component {
 			trans_completed: this.state.trans_completed,
 		}
 
+
+
+		// var userPublicKey = "0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf";
+		// var userPrivateKey = "0x0D3EF0CE996DB59C50A732A246F987E6E2B922723799101EF0A65A060BF2D54C";
+
+		var userPublicKey = this.state.info[0]['public_key']
+		var userPrivateKey = this.state.info[0]['private_key']
+		alert(userPrivateKey)
+		alert(userPublicKey)
+
 		axios.post('http://localhost:4000/todos/add', newTodo)
 			.then(res => console.log(res.data));
+
 
 		var Web3 = require('web3');
 		// define using metamask
@@ -497,26 +519,56 @@ export default class CreateTodo extends Component {
 		// 		// } else {
 		// 		// 	console.log("no metamask connected");
 		// 		// }
-		var userPublicKey = "0x853a8C14d3285120EA5379E923F3726DF89dC7A5";
-		var userPrivateKey = "885515BB1C871C25F45170BC23233229BB240116F6FE12C2A6253CDBF9646EA0";
+
+		
 		var rpcUrl = "https://ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
 		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
-		web3.eth.accounts.privateKeyToAccount(userPrivateKey); 
+		// define account
+		var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
+		web3.eth.accounts.wallet.add(account);
 		// define contract
 		var contract_address = '0xEAaEa353404d0cC1700cBF671f83903092a1B718';
-		var contract = new web3.eth.Contract(abi, contract_address, {
-			from: userPublicKey,
-			gasPrice: '20000000000'
-		});
+		var contract = new web3.eth.Contract(abi, contract_address);
 		contract.defaultChain = 'ropsten';
+		contract.defaultHardfork = 'petersburg';
 		// call "addProperty" method in the contract and create a property named "123"
-		contract.methods.addProperty(this.state.property_id, this.state.trans_seller_id, this.state.trans_seller).send({from:userPublicKey})
-			.on('transactionHash', function(hash){
-				console.log("transactionHash" + hash);
-			})
-			.on('receipt', function(receipt){
-				console.log(receipt);
-			});
+// <<<<<<< HEAD
+// 		contract.methods.addProperty(this.state.property_id, this.state.trans_seller_id, this.state.trans_seller).send({from:userPublicKey})
+// 			.on('transactionHash', function(hash){
+// 				console.log("transactionHash" + hash);
+// 			})
+// 			.on('receipt', function(receipt){
+// 				console.log(receipt);
+// 			});
+		var prop1 = this.state.property_id;
+		var prop2 =this.state.trans_seller_id;
+		var prop3 = this.state.trans_seller; 
+
+		async function addProperty() {
+			const from = web3.eth.accounts.wallet[0].address;
+			const nonce = await web3.eth.getTransactionCount(from, "pending");
+			let gas = await contract.methods
+				.addProperty(prop1, prop2, prop3)
+				.estimateGas({from: from, gas: "10000000000"});
+
+			gas = Math.round(gas * 1.5);
+
+			try {
+				const result = await contract.methods
+					.addProperty(prop1, prop2, prop3).send({gas, from, nonce})
+					.on('transactionHash', function(hash){
+						console.log("transactionHash" + hash);
+					})
+					.on('receipt', function(receipt){
+						console.log(receipt);
+					});
+				console.log("success", result);
+			} catch (e) {
+				console.log("error", e);
+			}
+		}
+
+		addProperty();
 
 		this.setState({
 			trans_buyer_id: '',
@@ -529,7 +581,6 @@ export default class CreateTodo extends Component {
 			trans_completed: false,
 			main_url: "/main/" + this.props.match.params.usr
 		});
-
 
 	}
 

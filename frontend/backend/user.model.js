@@ -13,6 +13,9 @@ let User = new Schema({
 	public_key: {
 		type: String
 	}, 
+	private_key: {
+		type: String
+	},
 	is_notary: {
 		type: Boolean
 	},

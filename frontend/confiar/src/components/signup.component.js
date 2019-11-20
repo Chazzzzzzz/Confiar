@@ -14,6 +14,7 @@ export default class SignUp extends Component {
 		this.onChangeIsNotary = this.onChangeIsNotary.bind(this);
 		this.onChangeUsername = this.onChangeUsername.bind(this);
 		this.onChangePublicKey = this.onChangePublicKey.bind(this);
+		this.onChangePrivateKey = this.onChangePrivateKey.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 
 		this.state = {
@@ -21,6 +22,7 @@ export default class SignUp extends Component {
 			password: '',
 			is_notary: true,
 			public_key: '',
+			private_key: '',
 		}
 	}
 
@@ -54,6 +56,7 @@ export default class SignUp extends Component {
 			username: this.state.username,
 			password: this.state.password,
 			public_key: this.state.public_key,
+			private_key: this.state.private_key,
 			is_notary: this.state.is_notary,
 		}
 
@@ -73,6 +76,7 @@ export default class SignUp extends Component {
 			password: '',
 			is_notary: true,
 			public_key: '',
+			private_key: '',
 		});
 
 	}
@@ -80,6 +84,12 @@ export default class SignUp extends Component {
 	onChangePublicKey(e) {
 		this.setState({
 			public_key: e.target.value
+		});
+	}
+
+	onChangePrivateKey(e) {
+		this.setState({
+			private_key: e.target.value
 		});
 	}
 
@@ -126,6 +136,16 @@ export default class SignUp extends Component {
 								onChange={this.onChangePublicKey}
 								/>
 					</div>
+
+					<div className="form-group">
+						<label>Private Key: </label>
+						<input  type="text" 
+								className="form-control" 
+								value={this.state.private_key} 
+								onChange={this.onChangePrivateKey}
+								/>
+					</div>
+
 
 					<div className="form-group">
                         <div className="form-check form-check-inline">
