@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Web3 from 'web3'
 
 import { Dropdown, DropdownButton, FormControl,  ul} from 'react-bootstrap';
 
@@ -13,6 +14,14 @@ var abi = [
 		"inputs": [
 			{
 				"name": "propertyID",
+				"type": "string"
+			},
+			{
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"name": "ownerName",
 				"type": "string"
 			}
 		],
@@ -54,22 +63,8 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "proposalID",
-				"type": "bytes32"
-			}
-		],
-		"name": "cancel",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
 				"name": "ownerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"name": "propertyID",
@@ -91,19 +86,10 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "proposalID",
-				"type": "bytes32"
+				"name": "ownerID",
+				"type": "string"
 			}
 		],
-		"name": "claimTimeout",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
 		"name": "getOwnership",
 		"outputs": [
 			{
@@ -152,11 +138,23 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
-				"name": "buyerID",
-				"type": "address"
+				"name": "propertyID",
+				"type": "string"
 			},
 			{
-				"name": "propertyID",
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"name": "buyerID",
+				"type": "string"
+			},
+			{
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"name": "buyerName",
 				"type": "string"
 			}
 		],
@@ -177,13 +175,23 @@ var abi = [
 		"inputs": [
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
 				"name": "proposalID",
 				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -199,13 +207,28 @@ var abi = [
 		"inputs": [
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"name": "buyerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -231,13 +254,28 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"name": "buyerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -263,13 +301,28 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
 				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
 				"name": "buyerID",
-				"type": "address"
+				"type": "string"
 			},
 			{
 				"indexed": false,
@@ -295,12 +348,7 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "buyerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
@@ -327,12 +375,7 @@ var abi = [
 			},
 			{
 				"indexed": false,
-				"name": "ownerID",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"name": "buyerID",
+				"name": "notaryID",
 				"type": "address"
 			},
 			{
@@ -446,6 +489,35 @@ export default class CreateTodo extends Component {
 		axios.post('http://localhost:4000/todos/add', newTodo)
 			.then(res => console.log(res.data));
 
+		var Web3 = require('web3');
+		// define using metamask
+		// if (typeof window.ethereum !== 'undefined') {
+		// 		// 	const provider = window['ethereum'];
+		// 		// 	var web3 = new Web3(provider);
+		// 		// } else {
+		// 		// 	console.log("no metamask connected");
+		// 		// }
+		var userPublicKey = "0x853a8C14d3285120EA5379E923F3726DF89dC7A5";
+		var userPrivateKey = "885515BB1C871C25F45170BC23233229BB240116F6FE12C2A6253CDBF9646EA0";
+		var rpcUrl = "https://ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
+		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
+		web3.eth.accounts.privateKeyToAccount(userPrivateKey); 
+		// define contract
+		var contract_address = '0xEAaEa353404d0cC1700cBF671f83903092a1B718';
+		var contract = new web3.eth.Contract(abi, contract_address, {
+			from: userPublicKey,
+			gasPrice: '20000000000'
+		});
+		contract.defaultChain = 'ropsten';
+		// call "addProperty" method in the contract and create a property named "123"
+		contract.methods.addProperty(this.state.property_id, this.state.trans_seller_id, this.state.trans_seller).send({from:userPublicKey})
+			.on('transactionHash', function(hash){
+				console.log("transactionHash" + hash);
+			})
+			.on('receipt', function(receipt){
+				console.log(receipt);
+			});
+
 		this.setState({
 			trans_buyer_id: '',
 			trans_buyer: '', 
@@ -458,33 +530,6 @@ export default class CreateTodo extends Component {
 			main_url: "/main/" + this.props.match.params.usr
 		});
 
-
-		var Web3 = require('web3');
-		// define using metamask
-		// if (typeof window.ethereum !== 'undefined') {
-		// 		// 	const provider = window['ethereum'];
-		// 		// 	var web3 = new Web3(provider);
-		// 		// } else {
-		// 		// 	console.log("no metamask connected");
-		// 		// }
-		var userPublicKey = "0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf";
-		var rpcUrl = "ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
-		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
-		// define contract
-		var contract_address = '0xEAaEa353404d0cC1700cBF671f83903092a1B718';
-		var contract = new web3.eth.Contract(abi, contract_address, {
-			from: userPublicKey,
-			gasPrice: '20000000000'
-		});
-		contract.defaultChain = 'ropsten';
-		// call "addProperty" method in the contract and create a property named "123"
-		contract.methods.addProperty("123", "chazID", "chaz").send({from:userPublicKey})
-			.on('transactionHash', function(hash){
-				console.log("transactionHash" + hash);
-			})
-			.on('receipt', function(receipt){
-				console.log(receipt);
-			});
 
 	}
 
