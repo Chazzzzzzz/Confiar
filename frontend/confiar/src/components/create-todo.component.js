@@ -574,7 +574,7 @@ export default class CreateTodo extends Component {
 			const from = web3.eth.accounts.wallet[0].address;
 			const nonce = await web3.eth.getTransactionCount(from, "pending");
 			let gas = await contract.methods
-				.transferProperty(prop1, prop4, prop2, prop3, prop5)
+				.transferProperty(prop1, prop2, prop4, prop3, prop5)
 				.estimateGas({from: from, gas: "10000000000"});
 
 			gas = Math.round(gas * 1.5);
