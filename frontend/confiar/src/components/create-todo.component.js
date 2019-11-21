@@ -608,8 +608,6 @@ export default class CreateTodo extends Component {
 
 		var userPublicKey = this.state.info[0]['public_key']
 		var userPrivateKey = "0x" + this.state.info[0]['private_key']
-		alert(userPrivateKey)
-		alert(userPublicKey)
 
 		axios.post('http://localhost:4000/todos/add', newTodo)
 			.then(res => console.log(res.data));
@@ -655,7 +653,7 @@ export default class CreateTodo extends Component {
 			const nonce = await web3.eth.getTransactionCount(from, "pending");
 			let gas = await contract.methods
 				.addProperty(prop1, prop2, prop3)
-				.estimateGas({from: from, gas: "10000000000"});
+				.estimateGas({from: from, gas: "5000000000000"});
 
 			gas = Math.round(gas * 1.5);
 
@@ -679,7 +677,7 @@ export default class CreateTodo extends Component {
 			const nonce = await web3.eth.getTransactionCount(from, "pending");
 			let gas = await contract.methods
 				.transferProperty(prop1, prop2, prop4, prop3, prop5)
-				.estimateGas({from: from, gas: "10000000000"});
+				.estimateGas({from: from, gas: "5000000000000"});
 
 			gas = Math.round(gas * 1.5);
 
@@ -698,8 +696,33 @@ export default class CreateTodo extends Component {
 			}
 		}
 
-		addProperty();
-		transferProperty();
+		// addProperty();
+		// transferProperty();
+
+		async function getTransactions() {
+			const from = web3.eth.accounts.wallet[0].address;
+			const nonce = await web3.eth.getTransactionCount(from, "pending");
+			let gas = await contract.methods
+				.getUserTransactions("123")
+				.estimateGas({from: from});
+
+			gas = Math.round(gas * 1.5);
+
+			try {
+				const result = await contract.methods
+					.getUserTransactions("123").send({gas, from, nonce})
+					.on('transactionHash', function(hash){
+						console.log("transactionHash" + hash);
+					});
+				console.log("success", result);
+			} catch (e) {
+				console.log("error", e);
+			}
+		}
+
+		getTransactions();
+
+
 
 		this.setState({
 			trans_buyer_id: '',
