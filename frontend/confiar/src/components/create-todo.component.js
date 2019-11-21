@@ -424,7 +424,7 @@ export default class CreateTodo extends Component {
 
 		this.state = {
 			trans_buyer_id: '',
-			trans_buyer: '', 
+			trans_buyer: '',
 			trans_seller_id: '',
 			trans_seller: '',
 			property_id: '',
@@ -479,7 +479,7 @@ export default class CreateTodo extends Component {
 				this.setState({info: response.data});
 			})
 			.catch(function(error) {
-				console.log(error); 
+				console.log(error);
 			})
 	}
 
@@ -488,7 +488,7 @@ export default class CreateTodo extends Component {
 
 		const newTodo = {
 			trans_buyer_id: this.state.trans_buyer_id,
-			trans_buyer: this.state.trans_buyer, 
+			trans_buyer: this.state.trans_buyer,
 			trans_seller_id: this.state.trans_seller_id,
 			trans_seller: this.state.trans_seller,
 			property_id: this.state.property_id,
@@ -520,7 +520,7 @@ export default class CreateTodo extends Component {
 		// 		// 	console.log("no metamask connected");
 		// 		// }
 
-		
+
 		var rpcUrl = "https://ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
 		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
 		// define account
@@ -542,7 +542,9 @@ export default class CreateTodo extends Component {
 // 			});
 		var prop1 = this.state.property_id;
 		var prop2 =this.state.trans_seller_id;
-		var prop3 = this.state.trans_seller; 
+		var prop3 = this.state.trans_seller;
+		var prop4 = this.state.trans_buyer_id;
+		var prop5 = this.state.trans_buyer;
 
 		async function addProperty() {
 			const from = web3.eth.accounts.wallet[0].address;
@@ -568,11 +570,36 @@ export default class CreateTodo extends Component {
 			}
 		}
 
+		async function transferProperty() {
+			const from = web3.eth.accounts.wallet[0].address;
+			const nonce = await web3.eth.getTransactionCount(from, "pending");
+			let gas = await contract.methods
+				.transferProperty(prop1, prop4, prop2, prop3, prop5)
+				.estimateGas({from: from, gas: "10000000000"});
+
+			gas = Math.round(gas * 1.5);
+
+			try {
+				const result = await contract.methods
+					.transferProperty(prop1, prop2, prop4, prop3, prop5).send({gas, from, nonce})
+					.on('transactionHash', function(hash){
+						console.log("transactionHash" + hash);
+					})
+					.on('receipt', function(receipt){
+						console.log(receipt);
+					});
+				console.log("success", result);
+			} catch (e) {
+				console.log("error", e);
+			}
+		}
+
 		addProperty();
+		transferProperty();
 
 		this.setState({
 			trans_buyer_id: '',
-			trans_buyer: '', 
+			trans_buyer: '',
 			trans_seller_id: '',
 			trans_seller: '',
 			property_id: '',
@@ -615,59 +642,59 @@ export default class CreateTodo extends Component {
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>buyer ID: </label>
-						<input  type="text" 
-								className="form-control" 
-								value={this.state.trans_buyer_id} 
+						<input  type="text"
+								className="form-control"
+								value={this.state.trans_buyer_id}
 								onChange={this.onChangeTransBuyerId}
 								/>
 					</div>
 
 					<div className="form-group">
 						<label>buyer name: </label>
-						<input  type="text" 
-								className="form-control" 
-								value={this.state.trans_buyer} 
+						<input  type="text"
+								className="form-control"
+								value={this.state.trans_buyer}
 								onChange={this.onChangeTransBuyer}
 								/>
 					</div>
 
 					<div className="form-group">
 						<label>owner ID: </label>
-						<input  type="text" 
-								className="form-control" 
-								value={this.state.trans_seller_id} 
+						<input  type="text"
+								className="form-control"
+								value={this.state.trans_seller_id}
 								onChange={this.onChangeTransSellerId}
 								/>
 					</div>
 
 					<div className="form-group">
 						<label>owner name: </label>
-						<input  type="text" 
-								className="form-control" 
-								value={this.state.trans_seller} 
+						<input  type="text"
+								className="form-control"
+								value={this.state.trans_seller}
 								onChange={this.onChangeTransSeller}
 								/>
 					</div>
 
 					<div className="form-group">
 						<label>Property ID: </label>
-						<input  type="text" 
-								className="form-control" 
-								value={this.state.property_id} 
+						<input  type="text"
+								className="form-control"
+								value={this.state.property_id}
 								onChange={this.onChangePropertyId}
 								/>
 					</div>
 
 					<div className="form-group">
 					<label>Property Docs: </label>
-					<input  type="text" 
-							className="form-control" 
-							value={this.state.trans_docs} 
+					<input  type="text"
+							className="form-control"
+							value={this.state.trans_docs}
 							onChange={this.onChangeTransDocs}
 							/>
 					</div>
 
-					<div className="form-group"> 
+					<div className="form-group">
 						<input type="submit"
 								value="Create Transaction"
 								className="btn btn-outline-primary"
