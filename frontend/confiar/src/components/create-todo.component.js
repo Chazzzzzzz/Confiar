@@ -503,7 +503,7 @@ export default class CreateTodo extends Component {
 		// var userPrivateKey = "0x0D3EF0CE996DB59C50A732A246F987E6E2B922723799101EF0A65A060BF2D54C";
 
 		var userPublicKey = this.state.info[0]['public_key']
-		var userPrivateKey = this.state.info[0]['private_key']
+		var userPrivateKey = "0x" + this.state.info[0]['private_key']
 		alert(userPrivateKey)
 		alert(userPublicKey)
 

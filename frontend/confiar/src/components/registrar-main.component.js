@@ -16,7 +16,8 @@ const Todo = props => (
 		<td className={props.todo.trans_completed ? 'completed' : ''}>{props.todo.trans_buyer}</td>
 		<td className={props.todo.trans_completed ? 'completed' : ''}>{props.todo.trans_docs}</td>
 		<td className={props.todo.trans_completed ? 'completed' : ''}>
-			<Link to={"/delete/" + props.back + "/" + props.todo._id}>Delete</Link>
+			<Link to={"/approve/" + props.back + "/" + props.todo._id}>Approve </Link>
+			<Link to={"/reject/" + props.back + "/" + props.todo._id}>Reject</Link>
 			
 		</td>
 	</tr>
@@ -76,9 +77,6 @@ export default class Main extends Component {
 			              <ul className="navbar-nav mr-auto">
 			                <li className="navbar-item">
 			                  <Link to="/" className="nav-link">Log Out</Link>
-			                </li>
-			                <li className="navbar-item">
-			                  <Link to={this.state.create_url} className="nav-link">Add Transaction</Link>
 			                </li>
 			              </ul>
 			          </div>
