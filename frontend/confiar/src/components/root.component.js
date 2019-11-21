@@ -8,8 +8,14 @@ import logo from "../logo.svg";
 export default class Root extends Component {
 	constructor(props) {
 		super(props);
+		this.onChangeUserId = this.onChangeUserId.bind(this);
 		this.onSubmitOne = this.onSubmitOne.bind(this);
 		this.onSubmitTwo = this.onSubmitTwo.bind(this);
+		this.onSubmitThree = this.onSubmitThree.bind(this);
+
+		this.state = {
+			user_id : '', 
+		}
 	}
 	onSubmitOne(e) {
 		e.preventDefault();
@@ -18,6 +24,15 @@ export default class Root extends Component {
 	onSubmitTwo(e) {
 		e.preventDefault();
 		this.props.history.push('/login/');
+	}
+	onSubmitThree(e) {
+		e.preventDefault();
+		this.props.history.push('/list/' + this.state.user_id);
+	}
+	onChangeUserId(e) {
+		this.setState({
+			user_id: e.target.value
+		});
 	}
 	render() {
 		return (
@@ -47,6 +62,21 @@ export default class Root extends Component {
 		<div className="form-group">
 		<button class="btn btn-outline-primary" onClick={this.onSubmitTwo}>Login</button>
 		</div>
+
+
+		<div className="form-group">
+			<label>Search Transactions: </label>
+			<input  type="text"
+					className="form-control"
+					value={this.state.user_id}
+					onChange={this.onChangeUserId}
+					/>
+		</div>
+
+		<div className="form-group">
+		<button class="btn btn-outline-info" onClick={this.onSubmitThree}>Search</button>
+		</div>
+
 		</form>
 
 		</div>
