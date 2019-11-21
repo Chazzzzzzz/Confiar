@@ -86,6 +86,20 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
+				"name": "notaID",
+				"type": "address"
+			}
+		],
+		"name": "getNotaryTransactions",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
 				"name": "ownerID",
 				"type": "string"
 			}
@@ -97,6 +111,34 @@ var abi = [
 				"type": "string[]"
 			}
 		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "regID",
+				"type": "address"
+			}
+		],
+		"name": "getRegTransactions",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "userID",
+				"type": "string"
+			}
+		],
+		"name": "getUserTransactions",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -393,6 +435,68 @@ var abi = [
 		"type": "event"
 	},
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "proposalID",
+				"type": "bytes32"
+			},
+			{
+				"indexed": false,
+				"name": "notaryID",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "buyerName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "propertyID",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "isSuccess",
+				"type": "bool"
+			},
+			{
+				"indexed": false,
+				"name": "isAddTransaction",
+				"type": "bool"
+			},
+			{
+				"indexed": false,
+				"name": "expiration",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "isPending",
+				"type": "bool"
+			}
+		],
+		"name": "printProposalEvent",
+		"type": "event"
+	},
+	{
 		"constant": true,
 		"inputs": [],
 		"name": "creator",
@@ -527,7 +631,7 @@ export default class CreateTodo extends Component {
 		var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
 		web3.eth.accounts.wallet.add(account);
 		// define contract
-		var contract_address = '0xEAaEa353404d0cC1700cBF671f83903092a1B718';
+		var contract_address = '0xCA964A199AE5C16F25cD56F2E54080188FD54adB';
 		var contract = new web3.eth.Contract(abi, contract_address);
 		contract.defaultChain = 'ropsten';
 		contract.defaultHardfork = 'petersburg';
