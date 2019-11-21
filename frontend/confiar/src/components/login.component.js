@@ -55,7 +55,7 @@ export default class SignUp extends Component {
 			})
 
 
-		if (this.state.verified.length == 0) {
+		if (this.state.verified.length === 0) {
 			this.setState({failed: true});
 		} else {
 			this.props.history.push('/main/' + this.state.username);

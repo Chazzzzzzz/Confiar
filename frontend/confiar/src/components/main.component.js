@@ -28,7 +28,8 @@ export default class Main extends Component {
 		super(props);
 		this.state = {
 			todos: [],
-			create_url: "/create/" + this.props.match.params.usr,
+			transfer_url: "/create/" + this.props.match.params.usr,
+			add_url: "/add/" + this.props.match.params.usr,
 			userId: this.props.match.params.usr, 
 			main_url: "/main/" + this.props.match.params.usr
 		}
@@ -78,7 +79,10 @@ export default class Main extends Component {
 			                  <Link to="/" className="nav-link">Log Out</Link>
 			                </li>
 			                <li className="navbar-item">
-			                  <Link to={this.state.create_url} className="nav-link">Add Transaction</Link>
+			                  <Link to={this.state.transfer_url} className="nav-link">Transfer Property</Link>
+			                </li>
+			                <li className="navbar-item">
+			                  <Link to={this.state.add_url} className="nav-link">Add Property</Link>
 			                </li>
 			              </ul>
 			          </div>

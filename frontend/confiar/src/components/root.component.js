@@ -27,7 +27,7 @@ export default class Root extends Component {
 	}
 	onSubmitThree(e) {
 		e.preventDefault();
-		this.props.history.push('/list/' + this.state.user_id);
+		this.props.history.push('/search/' + this.state.user_id);
 	}
 	onChangeUserId(e) {
 		this.setState({

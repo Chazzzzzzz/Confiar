@@ -11,6 +11,8 @@ import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import Root from "./components/root.component";
 import Registrar from "./components/registrar-main.component";
+import AddTodo from "./components/add-todo.component";
+import Search from "./components/search.component";
 
 import Main from "./components/main.component";
 
@@ -30,6 +32,8 @@ function App() {
       <Route path="/delete/:usr/:id" exact component={DeleteTodos} />
       <Route path="/edit/:usr/:id" exact component={EditTodo} />
       <Route path="/create/:usr" exact component={CreateTodo} />
+      <Route path="/add/:usr" exact component={AddTodo} />
+      <Route path="/search/:usrID" exact component={Search} />
     </div>
     </Router>
   );
