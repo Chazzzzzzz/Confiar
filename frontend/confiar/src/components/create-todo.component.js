@@ -697,7 +697,7 @@ export default class CreateTodo extends Component {
 		}
 
 		// addProperty();
-		// transferProperty();
+		transferProperty();
 
 		async function getTransactions() {
 			const from = web3.eth.accounts.wallet[0].address;
@@ -720,7 +720,7 @@ export default class CreateTodo extends Component {
 			}
 		}
 
-		getTransactions();
+		// getTransactions();
 
 
 
