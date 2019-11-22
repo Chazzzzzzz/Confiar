@@ -512,6 +512,17 @@ var abi = [
 	}
 ];
 
+const Todo = props => (
+	<tr> 
+		<td>{props.todo['returnValues']['notaryID']}</td>
+		<td >{props.todo['returnValues']['propertyID']}</td>
+		<td >{props.todo['returnValues']['ownerName']}</td>
+		<td >{props.todo['returnValues']['buyerName'] == '' ? "N/A" : props.todo['returnValues']['buyerName']}</td>
+		<td >{props.todo['returnValues']['buyerName'] == '' ? "Add Property" : "Transfer Property"}</td>
+		<td >{props.todo['returnValues']['isPending'] === true ? "Pending" : props.todo['returnValues']['isSuccess'] === true ? "Approved" : "Rejected"}</td>
+	</tr>
+)
+
 export default class Search extends Component {
 
 	constructor(props) {
@@ -519,15 +530,14 @@ export default class Search extends Component {
 
 		this.state = {
 			res : [],
+			isValid: true,
+			one: false,
 		}
 	}
 
 	componentDidMount() {
-		function setVal(r){
-			this.setState({
-				res: r,
-			});
-		}
+		let currentComponent = this;
+
 
 		var userPublicKey = "0x3F43716bCf007AE649414254eFC2b33D9e94Aeaf";
 		var userPrivateKey = "0x0D3EF0CE996DB59C50A732A246F987E6E2B922723799101EF0A65A060BF2D54C";
@@ -550,28 +560,61 @@ export default class Search extends Component {
 			const from = web3.eth.accounts.wallet[0].address;
 			const nonce = await web3.eth.getTransactionCount(from, "pending");
 			let gas = await contract.methods
-				.getUserTransactions("123")
+				.getUserTransactions(currentComponent.props.match.params.usrID)
 				.estimateGas({from: from});
 
 			gas = Math.round(gas * 1.5);
 
 			try {
 				const result = await contract.methods
-					.getUserTransactions("123").send({gas, from, nonce})
+					.getUserTransactions(currentComponent.props.match.params.usrID).send({gas, from, nonce})
 					.on('transactionHash', function(hash){
 						console.log("transactionHash" + hash);
 					});
 				console.log("success", result);
-				setVal(result);
+
+				//alert(result['events']['printProposalEvent']);
+				if (!result['events']['printProposalEvent']) {
+					currentComponent.setState({
+						isValid: false,
+					});
+				}
+				if (!result['events']['printProposalEvent'][0]) {
+					currentComponent.setState({
+						one: true,
+					});
+				}
+
+
+				currentComponent.setState({
+					res: result['events']['printProposalEvent'],
+				});
+				
 
 			} catch (e) {
 				console.log("error", e);
+				currentComponent.setState({
+					isValid: false,
+				});
+
 			}
 		}
 
 		getTransactions();
 
 
+	}
+
+	todoList() {
+		if (this.state.isValid && this.state.res.length != 0) {
+			if (this.state.one) {
+				return <Todo todo={this.state.res} key={0}/>;
+			} else {
+				return this.state.res.map(function(currentTodo, i) {
+					return <Todo todo={currentTodo} key={i}/>;
+				});
+			}
+		}
 	}
 
 	
@@ -600,10 +643,26 @@ export default class Search extends Component {
 
 
 			<div style={{marginTop: 20}}>
-				<h3> Search Transactions for ID:</h3>
+				<h3> Search Transactions for ID: {this.props.match.params.usrID}</h3>
 				<form onSubmit={this.onSubmit}>
 					<div>
-					<p>{(this.state.res.length == 0) ? "loading" : this.state.res}</p>
+					<table className="table table-striped" style={{marginTop: 20}}>
+					<thead>
+						<tr> 
+							<th> Notary ID</th>
+							<th> Property ID</th>
+							<th> Owner</th>
+							<th> Buyer</th>
+							<th> Type </th>
+							<th> Status </th>
+						</tr>
+					</thead>
+					<tbody>
+						{this.todoList()}
+					</tbody>
+				</table>
+					<p>{(this.state.isValid === true && this.state.res.length === 0) ? "loading..." : ""}</p>
+					<font color="red">{(this.state.isValid === true) ? "" : "No Transactions Found For ID: " + this.props.match.params.usrID}</font>
 					</div>
 
 				</form>
