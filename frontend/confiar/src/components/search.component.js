@@ -6,7 +6,7 @@ import { Dropdown, DropdownButton, FormControl,  ul} from 'react-bootstrap';
 
 import  {Link} from 'react-router-dom';
 
-import logo from "../logo.svg";
+import logo from "../logo.svg.png";
 
 var abi = [
 	{
@@ -519,6 +519,7 @@ const Todo = props => (
 		<td >{props.todo['returnValues']['ownerName']}</td>
 		<td >{props.todo['returnValues']['buyerName'] == '' ? "N/A" : props.todo['returnValues']['buyerName']}</td>
 		<td >{props.todo['returnValues']['buyerName'] == '' ? "Add Property" : "Transfer Property"}</td>
+		<td >{props.todo['returnValues']['isPending'] === true ? "Pending" : props.todo['returnValues']['isSuccess'] === true ? "Approved" : "Rejected"}</td>
 	</tr>
 )
 
@@ -550,7 +551,7 @@ export default class Search extends Component {
 		var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
 		web3.eth.accounts.wallet.add(account);
 		// define contract
-		var contract_address = '0xCA964A199AE5C16F25cD56F2E54080188FD54adB';
+		var contract_address = '0x207814BB47e6593cec15466b5DCd81288EEb8aa6';
 		var contract = new web3.eth.Contract(abi, contract_address);
 		contract.defaultChain = 'ropsten';
 		contract.defaultHardfork = 'petersburg';

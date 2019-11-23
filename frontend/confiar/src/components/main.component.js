@@ -5,10 +5,66 @@ import axios from 'axios';
 import Web3 from 'web3';
 
 
-import logo from "../logo.svg";
+import logo from "../logo.svg.png";
 
 
 var abi = [
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "creator",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "ownerID",
+				"type": "string"
+			},
+			{
+				"name": "propertyID",
+				"type": "string"
+			}
+		],
+		"name": "checkOwnership",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "ownerID",
+				"type": "string"
+			}
+		],
+		"name": "getOwnership",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
 	{
 		"constant": false,
 		"inputs": [
@@ -21,11 +77,52 @@ var abi = [
 				"type": "string"
 			},
 			{
+				"name": "buyerID",
+				"type": "string"
+			},
+			{
 				"name": "ownerName",
+				"type": "string"
+			},
+			{
+				"name": "buyerName",
 				"type": "string"
 			}
 		],
-		"name": "addProperty",
+		"name": "transferProperty",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "ID",
+				"type": "address"
+			}
+		],
+		"name": "isRegistrationOffice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "userID",
+				"type": "string"
+			}
+		],
+		"name": "getUserTransactions",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -63,21 +160,43 @@ var abi = [
 		"constant": false,
 		"inputs": [
 			{
+				"name": "proposalID",
+				"type": "bytes32"
+			}
+		],
+		"name": "reject",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "getRegTransactions",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "propertyID",
+				"type": "string"
+			},
+			{
 				"name": "ownerID",
 				"type": "string"
 			},
 			{
-				"name": "propertyID",
+				"name": "ownerName",
 				"type": "string"
 			}
 		],
-		"name": "checkOwnership",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
+		"name": "addProperty",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -91,116 +210,6 @@ var abi = [
 			}
 		],
 		"name": "getNotaryTransactions",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "ownerID",
-				"type": "string"
-			}
-		],
-		"name": "getOwnership",
-		"outputs": [
-			{
-				"name": "",
-				"type": "string[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "regID",
-				"type": "address"
-			}
-		],
-		"name": "getRegTransactions",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "userID",
-				"type": "string"
-			}
-		],
-		"name": "getUserTransactions",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "ID",
-				"type": "address"
-			}
-		],
-		"name": "isRegistrationOffice",
-		"outputs": [
-			{
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "proposalID",
-				"type": "bytes32"
-			}
-		],
-		"name": "reject",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "propertyID",
-				"type": "string"
-			},
-			{
-				"name": "ownerID",
-				"type": "string"
-			},
-			{
-				"name": "buyerID",
-				"type": "string"
-			},
-			{
-				"name": "ownerName",
-				"type": "string"
-			},
-			{
-				"name": "buyerName",
-				"type": "string"
-			}
-		],
-		"name": "transferProperty",
 		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
@@ -495,20 +504,6 @@ var abi = [
 		],
 		"name": "printProposalEvent",
 		"type": "event"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "creator",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
 	}
 ];
 
@@ -569,7 +564,7 @@ export default class Main extends Component {
 		var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
 		web3.eth.accounts.wallet.add(account);
 		// define contract
-		var contract_address = '0xCA964A199AE5C16F25cD56F2E54080188FD54adB';
+		var contract_address = '0x207814BB47e6593cec15466b5DCd81288EEb8aa6';
 		var contract = new web3.eth.Contract(abi, contract_address);
 		contract.defaultChain = 'ropsten';
 		contract.defaultHardfork = 'petersburg';
