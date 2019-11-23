@@ -515,7 +515,7 @@ return abi;
 
 
 export function contractAddress() {
-	var adr = '0x84DF7a0F7CfAD6DFCd4dA1aAD666ABe0E6D34843';
+	var adr = '0x5B1b2756d5388d8133789f5884137Bb601D73d81';
 return adr;
 };
 
