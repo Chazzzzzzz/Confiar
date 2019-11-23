@@ -117,35 +117,7 @@ export default class SignUp extends Component {
 					console.log("error", e);
 				}
 			}
-
-
-			async function isRegistrationOffice() {
-				const from = web3.eth.accounts.wallet[0].address;
-				const nonce = await web3.eth.getTransactionCount(from, "pending");
-				let gas = await contract.methods
-					.isRegistrationOffice(pub_key)
-					.estimateGas({from: from, gas: "10000000000"});
-
-				gas = Math.round(gas * 1.5);
-
-				try {
-					const result = await contract.methods
-						.isRegistrationOffice(pub_key).send({gas, from, nonce})
-						.on('transactionHash', function(hash){
-							console.log("transactionHash" + hash);
-						})
-						.on('receipt', function(receipt){
-							console.log(receipt);
-						});
-					console.log("success", result);
-				} catch (e) {
-					console.log("error", e);
-				}
-			}
-
-
-			//addRegistrationOffice();
-			isRegistrationOffice();
+			addRegistrationOffice();
 
 		} else {
 			this.props.history.push('/main/' + this.state.username);

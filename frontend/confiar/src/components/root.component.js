@@ -63,7 +63,7 @@ export default class Root extends Component {
 
 
 		<div className="form-group">
-			<label>Search Transactions: </label>
+			<label>Search Transactions by Owner/Buyer ID: </label>
 			<input  type="text"
 					className="form-control"
 					value={this.state.user_id}

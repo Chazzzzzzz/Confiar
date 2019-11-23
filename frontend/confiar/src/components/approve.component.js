@@ -29,19 +29,13 @@ export default class DeleteTodo extends Component {
 
 	onSubmitOne(e) {
 		e.preventDefault();
+		var userPublicKey = this.state.info[0]['public_key'];
+		var userPrivateKey = "0x" + this.state.info[0]['private_key'];
 
-
-
-		var userPublicKey = this.state.info[0]['public_key']
-		var userPrivateKey = "0x" + this.state.info[0]['private_key']
-
-		alert(userPublicKey);
-		alert(userPrivateKey);
+		console.log("Reg Public Key:" + userPublicKey);
+		console.log("Reg Private Key:" + userPrivateKey);
 
 		var Web3 = require('web3');
-
-
-
 		var rpcUrl = "https://ropsten.infura.io/v3/204b3421ce854a73bf2ca420c5cae39f";
 		var web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
 		// define account
@@ -54,11 +48,11 @@ export default class DeleteTodo extends Component {
 		contract.defaultHardfork = 'petersburg';
 		// call "addProperty" method in the contract and create a property named "123"
 		var prop1 = this.props.match.params.id;
-		alert(prop1);
-		
-	
+		var cur = this;
+		var usr = this.props.match.params.usr;
+		console.log("properID:" + prop1);
 		async function approve() {
-			const from = web3.eth.accounts.wallet[0].address;
+			const from = userPublicKey;
 			const nonce = await web3.eth.getTransactionCount(from, "pending");
 			let gas = await contract.methods
 				.approve(prop1)
@@ -75,17 +69,13 @@ export default class DeleteTodo extends Component {
 					.on('receipt', function(receipt){
 						console.log(receipt);
 					});
-				console.log("success", result);
+				cur.props.history.push('/main/registrar/' + usr);
 			} catch (e) {
 				console.log("error", e);
 			}
 		}
 
 		approve();
-
-		
-
-		this.props.history.push('/main/registrar/' + this.props.match.params.usr);
 	}
 	onSubmitTwo(e) {
 		e.preventDefault();
@@ -96,9 +86,9 @@ export default class DeleteTodo extends Component {
 		<div>
 		<h2>Are you sure you want to Approve Transaction {this.props.match.id}?</h2>
 		<form onSubmit={this.onSubmitOne}>
-      <button type="submit" class="btn btn-outline-danger">Approve</button>
+      <button type="submit" className="btn btn-outline-danger">Approve</button>
        &nbsp;&nbsp;&nbsp;
-      <button class="btn btn-outline-secondary" onClick={this.onSubmitTwo}>Back</button>
+      <button className="btn btn-outline-secondary" onClick={this.onSubmitTwo}>Back</button>
     </form>
 		</div>
 	)

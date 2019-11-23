@@ -52,22 +52,18 @@ export default class RegistrarMain extends Component {
 
 	componentDidMount() {
 
-		var resp = []
+		var resp = [];
 
 		axios.get('http://localhost:4000/todos/getInfo/'+this.props.match.params.usr)
 		.then(response => {
-			//alert(response.data);
+
 			resp = response.data;
 			this.setState({info: response.data});
-			//alert(resp);
 
 			let currentComponent = this;
 
-		var userPublicKey = "0x853a8C14d3285120EA5379E923F3726DF89dC7A5";
-		var userPrivateKey = "0x885515BB1C871C25F45170BC23233229BB240116F6FE12C2A6253CDBF9646EA0";
-
-		// var userPublicKey = resp[0]['public_key']
-		// var userPrivateKey = "0x" + resp[0]['private_key']
+			var userPrivateKey = "0x" + this.state.info[0]['private_key'];
+			// console.log("userPrivateKey:" + userPrivateKey);
 
 		var Web3 = require('web3');
 
@@ -100,7 +96,6 @@ export default class RegistrarMain extends Component {
 					});
 				console.log("success", result);
 
-				//alert(result['events']['printProposalEvent']);
 				if (!result['events']['printProposalEvent']) {
 					currentComponent.setState({
 						isValid: false,
@@ -133,58 +128,12 @@ export default class RegistrarMain extends Component {
 		.catch(function(error) {
 			console.log(error);
 		})
-
-
-		// axios.get('http://localhost:4000/todos/find/'+this.state.userId)
-		// 	.then(response => {
-		// 		this.setState({todos: response.data});
-		// 	})
-		// 	.catch(function(error) {
-		// 		console.log(error); 
-		// 	})
-
-		
-
-
-
 	}
 
 
 	
 	componentDidUpdate() {
-		// axios.get('http://localhost:4000/todosfind/'+this.state.userId)
-		// 	.then(response => {
-		// 		this.setState({todos: response.data});
-		// 	})
-		// 	.catch(function(error) {
-		// 		console.log(error); 
-		// 	})
-
-
 	}
-
-	// <table className="table table-striped" style={{marginTop: 20}}>
-	// 				<thead>
-	// 					<tr> 
-	// 						<th> Notary ID</th>
-	// 						<th> Property ID</th>
-	// 						<th> Owner</th>
-	// 						<th> Buyer</th>
-	// 						<th> Documents</th>
-	// 						<th> Actions</th>
-	// 					</tr>
-	// 				</thead>
-	// 				<tbody>
-	// 					{this.todoList1()}
-	// 				</tbody>
-	// 			</table>
-
-	// todoList() {
-	// 	let address = this.state.userId
-	// 	return this.state.todos.map(function(currentTodo, i) {
-	// 		return <Todo todo={currentTodo} back={address} key={i}/>;
-	// 	});
-	// }
 
 	todoList1() {
 		

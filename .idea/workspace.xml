@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d266862e-a4f0-4571-8294-6f439a2a00bf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/confiar/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/create-todo.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/create-todo.component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/approve.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/approve.component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/registrar-main.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/registrar-main.component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/reject.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/reject.component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/root.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/root.component.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/confiar/src/components/signup.component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/confiar/src/components/signup.component.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +57,7 @@
       <workItem from="1574017664496" duration="602000" />
       <workItem from="1574311525172" duration="3166000" />
       <workItem from="1574373340637" duration="486000" />
+      <workItem from="1574492276520" duration="5906000" />
     </task>
     <servers />
   </component>
