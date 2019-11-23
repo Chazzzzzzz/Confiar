@@ -519,7 +519,6 @@ const Todo = props => (
 		<td >{props.todo['returnValues']['ownerName']}</td>
 		<td >{props.todo['returnValues']['buyerName'] == '' ? "N/A" : props.todo['returnValues']['buyerName']}</td>
 		<td >{props.todo['returnValues']['buyerName'] == '' ? "Add Property" : "Transfer Property"}</td>
-		<td >{props.todo['returnValues']['isPending'] === true ? "Pending" : props.todo['returnValues']['isSuccess'] === true ? "Approved" : "Rejected"}</td>
 	</tr>
 )
 
@@ -655,6 +654,7 @@ export default class Search extends Component {
 							<th> Buyer</th>
 							<th> Type </th>
 							<th> Status </th>
+
 						</tr>
 					</thead>
 					<tbody>

@@ -37,7 +37,11 @@ export default class SignUp extends Component {
 
 	componentDidUpdate(){
 		if (this.state.verified.length > 0){
-			this.props.history.push('/main/' + this.state.olduser);
+			if (this.state.verified[0]['is_notary']) {
+				this.props.history.push('/main/' + this.state.olduser);
+			} else {
+				this.props.history.push('/main/registrar/' + this.state.olduser);
+			}
 		}
 	}
 
@@ -57,9 +61,7 @@ export default class SignUp extends Component {
 
 		if (this.state.verified.length === 0) {
 			this.setState({failed: true});
-		} else {
-			this.props.history.push('/main/' + this.state.username);
-		}
+		} 
 
 
 		this.setState({

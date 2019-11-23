@@ -13,6 +13,8 @@ import Root from "./components/root.component";
 import Registrar from "./components/registrar-main.component";
 import AddTodo from "./components/add-todo.component";
 import Search from "./components/search.component";
+import Accept from "./components/approve.component";
+import Reject from "./components/reject.component";
 
 import Main from "./components/main.component";
 
@@ -34,6 +36,8 @@ function App() {
       <Route path="/create/:usr" exact component={CreateTodo} />
       <Route path="/add/:usr" exact component={AddTodo} />
       <Route path="/search/:usrID" exact component={Search} />
+      <Route path="/approve/:usr/:id" exact component={Accept} />
+      <Route path="/reject/:usr/:id" exact component={Reject} />
     </div>
     </Router>
   );
