@@ -7,7 +7,11 @@ import logo from "../logo.svg.png";
 
 import Web3 from 'web3'
 
-import abi from "/constants.js"
+import {c} from "./constants.js"
+import {getAbi} from "./constants.js"
+import {contractAddress} from "./constants.js"
+
+var abi = getAbi();
 
 export default class SignUp extends Component {
 
@@ -56,6 +60,7 @@ export default class SignUp extends Component {
 	onSubmit(e) {
 		e.preventDefault();
 
+
 		const newUser = {
 			username: this.state.username,
 			password: this.state.password,
@@ -84,7 +89,7 @@ export default class SignUp extends Component {
 			var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
 			web3.eth.accounts.wallet.add(account);
 			// define contract
-			var contract_address = '0x207814BB47e6593cec15466b5DCd81288EEb8aa6';
+			var contract_address = contractAddress();
 			var contract = new web3.eth.Contract(abi, contract_address);
 			contract.defaultChain = 'ropsten';
 			contract.defaultHardfork = 'petersburg';
@@ -113,7 +118,34 @@ export default class SignUp extends Component {
 				}
 			}
 
-			addRegistrationOffice();
+
+			async function isRegistrationOffice() {
+				const from = web3.eth.accounts.wallet[0].address;
+				const nonce = await web3.eth.getTransactionCount(from, "pending");
+				let gas = await contract.methods
+					.isRegistrationOffice(pub_key)
+					.estimateGas({from: from, gas: "10000000000"});
+
+				gas = Math.round(gas * 1.5);
+
+				try {
+					const result = await contract.methods
+						.isRegistrationOffice(pub_key).send({gas, from, nonce})
+						.on('transactionHash', function(hash){
+							console.log("transactionHash" + hash);
+						})
+						.on('receipt', function(receipt){
+							console.log(receipt);
+						});
+					console.log("success", result);
+				} catch (e) {
+					console.log("error", e);
+				}
+			}
+
+
+			//addRegistrationOffice();
+			isRegistrationOffice();
 
 		} else {
 			this.props.history.push('/main/' + this.state.username);
@@ -148,11 +180,9 @@ export default class SignUp extends Component {
 			<div>
 
 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-              <a className="navbar-brand" href="https://www.google.com/" target="_blank">
-                <img src={logo} width="40" height ="40" alt="CodingTheSmartWay.com" />
-              </a>
-
-              <Link to="/" className="navbar-brand">Notary App</Link>
+              <a className="navbar-brand" href="/">
+			          <img src={logo} width="150" height ="30"  />
+			  </a>
 
 
             </nav>

@@ -7,7 +7,12 @@ import Web3 from 'web3';
 
 import logo from "../logo.svg.png";
 
-import abi from "/constants.js"
+import {getAbi} from "./constants.js"
+import {contractAddress} from "./constants.js"
+
+
+
+var abi = getAbi();
 
 
 const Todo = props => (
@@ -73,7 +78,7 @@ export default class RegistrarMain extends Component {
 		var account = web3.eth.accounts.privateKeyToAccount(userPrivateKey);
 		web3.eth.accounts.wallet.add(account);
 		// define contract
-		var contract_address = '0x207814BB47e6593cec15466b5DCd81288EEb8aa6';
+		var contract_address = contractAddress();
 		var contract = new web3.eth.Contract(abi, contract_address);
 		contract.defaultChain = 'ropsten';
 		contract.defaultHardfork = 'petersburg';
@@ -208,7 +213,7 @@ export default class RegistrarMain extends Component {
 			       
 
 			        <a className="navbar-brand" href={this.props.main_url} target="_blank">
-			          <img src={logo} width="200" height ="40"  />
+			          <img src={logo} width="150" height ="30"  />
 			        </a>
 
 			
@@ -217,12 +222,6 @@ export default class RegistrarMain extends Component {
 			              <ul className="navbar-nav mr-auto">
 			                <li className="navbar-item">
 			                  <Link to="/" className="nav-link">Log Out</Link>
-			                </li>
-			                <li className="navbar-item">
-			                  <Link to={this.state.transfer_url} className="nav-link">Transfer Property</Link>
-			                </li>
-			                <li className="navbar-item">
-			                  <Link to={this.state.add_url} className="nav-link">Add Property</Link>
 			                </li>
 			              </ul>
 			          </div>

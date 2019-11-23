@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'; 
 import axios from 'axios';
 
 import  {Link} from 'react-router-dom';
@@ -83,11 +83,9 @@ export default class SignUp extends Component {
 			<div>
 
 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-              <a className="navbar-brand" href="https://www.google.com/" target="_blank">
-                <img src={logo} width="40" height ="40" alt="CodingTheSmartWay.com" />
-              </a>
-
-              <Link to="/" className="navbar-brand">Notary App</Link>
+              <a className="navbar-brand" href="/">
+			          <img src={logo} width="150" height ="30"  />
+			   </a>
 
 
             </nav>
