@@ -1,6 +1,76 @@
 export function getAbi() {
     var abi = [
 		{
+			"constant": true,
+			"inputs": [],
+			"name": "creator",
+			"outputs": [
+				{
+					"name": "",
+					"type": "address"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "ownerID",
+					"type": "string"
+				},
+				{
+					"name": "propertyID",
+					"type": "string"
+				}
+			],
+			"name": "checkOwnership",
+			"outputs": [
+				{
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "proposalID",
+					"type": "string"
+				}
+			],
+			"name": "reject",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "ownerID",
+					"type": "string"
+				}
+			],
+			"name": "getOwnership",
+			"outputs": [
+				{
+					"name": "",
+					"type": "string[]"
+				}
+			],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
 			"constant": false,
 			"inputs": [
 				{
@@ -12,11 +82,52 @@ export function getAbi() {
 					"type": "string"
 				},
 				{
+					"name": "buyerID",
+					"type": "string"
+				},
+				{
 					"name": "ownerName",
+					"type": "string"
+				},
+				{
+					"name": "buyerName",
 					"type": "string"
 				}
 			],
-			"name": "addProperty",
+			"name": "transferProperty",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "ID",
+					"type": "address"
+				}
+			],
+			"name": "isRegistrationOffice",
+			"outputs": [
+				{
+					"name": "",
+					"type": "bool"
+				}
+			],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "userID",
+					"type": "string"
+				}
+			],
+			"name": "getUserTransactions",
 			"outputs": [],
 			"payable": false,
 			"stateMutability": "nonpayable",
@@ -52,23 +163,31 @@ export function getAbi() {
 		},
 		{
 			"constant": false,
+			"inputs": [],
+			"name": "getRegTransactions",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": false,
 			"inputs": [
+				{
+					"name": "propertyID",
+					"type": "string"
+				},
 				{
 					"name": "ownerID",
 					"type": "string"
 				},
 				{
-					"name": "propertyID",
+					"name": "ownerName",
 					"type": "string"
 				}
 			],
-			"name": "checkOwnership",
-			"outputs": [
-				{
-					"name": "",
-					"type": "bool"
-				}
-			],
+			"name": "addProperty",
+			"outputs": [],
 			"payable": false,
 			"stateMutability": "nonpayable",
 			"type": "function"
@@ -82,111 +201,6 @@ export function getAbi() {
 				}
 			],
 			"name": "getNotaryTransactions",
-			"outputs": [],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [
-				{
-					"name": "ownerID",
-					"type": "string"
-				}
-			],
-			"name": "getOwnership",
-			"outputs": [
-				{
-					"name": "",
-					"type": "string[]"
-				}
-			],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [],
-			"name": "getRegTransactions",
-			"outputs": [],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [
-				{
-					"name": "userID",
-					"type": "string"
-				}
-			],
-			"name": "getUserTransactions",
-			"outputs": [],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [
-				{
-					"name": "ID",
-					"type": "address"
-				}
-			],
-			"name": "isRegistrationOffice",
-			"outputs": [
-				{
-					"name": "",
-					"type": "bool"
-				}
-			],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [
-				{
-					"name": "proposalID",
-					"type": "string"
-				}
-			],
-			"name": "reject",
-			"outputs": [],
-			"payable": false,
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"constant": false,
-			"inputs": [
-				{
-					"name": "propertyID",
-					"type": "string"
-				},
-				{
-					"name": "ownerID",
-					"type": "string"
-				},
-				{
-					"name": "buyerID",
-					"type": "string"
-				},
-				{
-					"name": "ownerName",
-					"type": "string"
-				},
-				{
-					"name": "buyerName",
-					"type": "string"
-				}
-			],
-			"name": "transferProperty",
 			"outputs": [],
 			"payable": false,
 			"stateMutability": "nonpayable",
@@ -493,20 +507,6 @@ export function getAbi() {
 			],
 			"name": "printCheckingResultEvent",
 			"type": "event"
-		},
-		{
-			"constant": true,
-			"inputs": [],
-			"name": "creator",
-			"outputs": [
-				{
-					"name": "",
-					"type": "address"
-				}
-			],
-			"payable": false,
-			"stateMutability": "view",
-			"type": "function"
 		}
 	];
 return abi;
@@ -515,7 +515,7 @@ return abi;
 
 
 export function contractAddress() {
-	var adr = '0xcF37C04C0d06b17CaDf4192226E1Bd980067b0f2';
+	var adr = '0x84DF7a0F7CfAD6DFCd4dA1aAD666ABe0E6D34843';
 return adr;
 };
 
