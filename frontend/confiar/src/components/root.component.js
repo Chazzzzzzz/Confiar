@@ -39,8 +39,8 @@ export default class Root extends Component {
 		<div>
 		<nav className="navbar navbar-expand-lg navbar-light bg-light">
              <a className="navbar-brand" href={this.props.main_url} target="_blank">
-			          <img src={logo} width="150" height ="30"  />
-			        </a>
+			      <img src={logo} width="150" height ="30"  />
+			 </a>
 
 
             </nav>
