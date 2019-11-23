@@ -230,7 +230,7 @@ contract colombia {
     
     function transferProperty(string memory propertyID, string memory ownerID, string memory buyerID, string memory ownerName, string memory buyerName) public {
         require(checkOwnership(ownerID, propertyID));
-        string memory proposalID = strConcat(ownerID, buyerID, propertyID);
+        string memory proposalID = strConcat(ownerID, propertyID);
         // check whether the user is trying to sell a property again or sell an unapproved property
         if (unfinishedProposals[proposalID].isPending) {
             revert();
